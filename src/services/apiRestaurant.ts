@@ -1,3 +1,5 @@
+import { MenuType } from '../types';
+
 const API_URL = 'https://react-fast-pizza-api.onrender.com/api';
 
 export async function getMenu() {
@@ -7,7 +9,7 @@ export async function getMenu() {
   if (!res.ok) throw Error('Failed getting menu');
 
   const { data } = await res.json();
-  return data;
+  return data as MenuType;
 }
 
 export async function getOrder(id) {
