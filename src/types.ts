@@ -38,3 +38,7 @@ export type NewOrderType = {
   phone: string;
   priority: boolean;
 };
+
+export type NewOrderErrors = {
+  phone?: string;
+}
