@@ -4,7 +4,9 @@ import Home from './UI/Home';
 import Menu, { loader as menuLoader } from './features/menu/Menu';
 import Cart from './features/cart/Cart';
 import Order, { loader as orderLoader } from './features/order/Order';
-import CreateOrder from './features/order/CreateOrder';
+import CreateOrder, {
+  action as newOrderAction,
+} from './features/order/CreateOrder';
 import AppLayout from './UI/AppLayout';
 import NotFound from './UI/Error';
 import { APP_ROUTS } from './const';
@@ -27,7 +29,11 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
         loader: orderLoader,
       },
-      { path: APP_ROUTS.NEW_ORDER, element: <CreateOrder /> },
+      {
+        path: APP_ROUTS.NEW_ORDER,
+        element: <CreateOrder />,
+        action: newOrderAction,
+      },
     ],
   },
 ]);

@@ -30,3 +30,11 @@ export type OrderCart = {
   unitPrice: number;
   totalPrice: number;
 };
+
+export type NewOrderType = {
+  address: string;
+  cart: OrderCart[];
+  customer: string;
+  phone: string;
+  priority: boolean;
+};
