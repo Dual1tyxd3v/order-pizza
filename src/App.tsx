@@ -34,6 +34,10 @@ const router = createBrowserRouter([
         element: <CreateOrder />,
         action: newOrderAction,
       },
+      {
+        path: '*',
+        element: <NotFound />
+      }
     ],
   },
 ]);
