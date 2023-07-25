@@ -8,3 +8,25 @@ export type Pizza = {
 };
 
 export type MenuType = Pizza[];
+
+export type OrderType = {
+  id: string;
+  customer: string;
+  phone: string;
+  address: string;
+  priority: true;
+  estimatedDelivery: string;
+  cart: OrderCart[];
+  position: string;
+  orderPrice: number;
+  status: string;
+  priorityPrice: number;
+};
+
+export type OrderCart = {
+  pizzaId: number;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+};

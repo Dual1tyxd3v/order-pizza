@@ -1,21 +1,35 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Home from './UI/Home';
-import Menu, {loader as menuLoader} from './features/menu/Menu';
+import Menu, { loader as menuLoader } from './features/menu/Menu';
 import Cart from './features/cart/Cart';
-import Order from './features/order/Order';
+import Order, { loader as orderLoader } from './features/order/Order';
 import CreateOrder from './features/order/CreateOrder';
 import AppLayout from './UI/AppLayout';
 import NotFound from './UI/Error';
+import { APP_ROUTS } from './const';
 
 const router = createBrowserRouter([
-  { element: <AppLayout />, children: [
-    { path: '/', element: <Home /> },
-    { path: '/menu', element: <Menu />, errorElement: <NotFound />, loader: menuLoader },
-    { path: '/cart', element: <Cart /> },
-    { path: '/order/:id', element: <Order /> },
-    { path: '/order/new', element: <CreateOrder /> },
-  ]},
+  {
+    element: <AppLayout />,
+    children: [
+      { path: APP_ROUTS.MAIN, element: <Home /> },
+      {
+        path: APP_ROUTS.MENU,
+        element: <Menu />,
+        errorElement: <NotFound />,
+        loader: menuLoader,
+      },
+      { path: APP_ROUTS.CART, element: <Cart /> },
+      {
+        path: `${APP_ROUTS.ORDER}/:orderId`,
+        element: <Order />,
+        errorElement: <NotFound />,
+        loader: orderLoader,
+      },
+      { path: APP_ROUTS.NEW_ORDER, element: <CreateOrder /> },
+    ],
+  },
 ]);
 
 function App() {
