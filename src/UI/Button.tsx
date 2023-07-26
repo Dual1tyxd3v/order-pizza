@@ -6,9 +6,10 @@ type ButtonProps = {
   disabled?: boolean;
   to?: string;
   type: 'small' | 'primary' | 'secondary';
+  click?: () => void;
 };
 
-function Button({ children, disabled = false, to, type }: ButtonProps) {
+function Button({ children, disabled = false, to, type, click }: ButtonProps) {
   const base =
     'text-sm bg-yellow-400 uppercase font-semibold text-stone-800 inline-block tracking-wide rounded-full hover:bg-yellow-300 transition-colors duration-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:bg-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed';
   const styles = {
@@ -25,7 +26,7 @@ function Button({ children, disabled = false, to, type }: ButtonProps) {
       </Link>
     );
   return (
-    <button disabled={disabled} className={styles[type]}>
+    <button disabled={disabled} className={styles[type]} onClick={click}>
       {children}
     </button>
   );

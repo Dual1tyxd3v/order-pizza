@@ -1,13 +1,29 @@
+import { useDispatch } from 'react-redux';
 import Button from '../../UI/Button';
 import { Pizza } from '../../types';
 import { formatCurrency } from '../../utils/helpers';
+import { useCallback } from 'react';
+import { addItem } from '../cart/cartSlice';
 
 type MenuItemProps = {
   pizza: Pizza;
 };
 
 function MenuItem({ pizza }: MenuItemProps) {
+  const dispatch = useDispatch();
+
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+
+  const onHandleClick = useCallback(() => {
+    const newCart = {
+      pizzaId: id,
+      name,
+      quantity: 1,
+      unitPrice,
+      totalPrice: unitPrice
+    }
+    dispatch(addItem(newCart));
+  }, [dispatch, id, name, unitPrice]);
 
   return (
     <li className="flex gap-4">
@@ -29,7 +45,11 @@ function MenuItem({ pizza }: MenuItemProps) {
               Sold out
             </p>
           )}
-          <Button type="small">Add to cart</Button>
+          {!soldOut && (
+            <Button type="small" click={onHandleClick}>
+              Add to cart
+            </Button>
+          )}
         </div>
       </div>
     </li>

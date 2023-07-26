@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import LinkButton from '../../UI/LinkButton';
 import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';

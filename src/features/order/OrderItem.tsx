@@ -3,13 +3,13 @@ import { formatCurrency } from '../../utils/helpers';
 
 type OrderItemProps = {
   item: OrderCart;
-  isLoadingIngredients: boolean;
+  // isLoadingIngredients: boolean;
 };
 
 function OrderItem({
   item,
-  isLoadingIngredients,
-  ingredients,
+/*   isLoadingIngredients,
+  ingredients, */
 }: OrderItemProps) {
   const { quantity, name, totalPrice } = item;
 
