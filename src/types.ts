@@ -50,3 +50,5 @@ export type UserState = {
 export type CartState = {
   cart: OrderCart[];
 }
+
+export type ButtonType = 'small' | 'primary' | 'secondary' | 'round';
