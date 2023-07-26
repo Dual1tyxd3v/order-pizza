@@ -5,26 +5,35 @@ import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
 import { useSelector } from 'react-redux';
 import { formatCurrency, isValidPhone } from '../../utils/helpers';
-import { getUserName } from '../user/userSlice';
+import { fetchAddress } from '../user/userSlice';
 import { clearCart, getCart, getTotalPrice } from '../cart/cartSlice';
 import EmptyCart from '../cart/EmptyCart';
-import store from '../../store';
+import store, { StoreType, useAppDispatch } from '../../store';
 import { useState } from 'react';
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
   const formErrors = useActionData() as NewOrderErrors;
 
-  const userName = useSelector(getUserName);
+  const {
+    userName,
+    errorMessage,
+    status: geolocationStatus,
+    address,
+    position,
+  } = useSelector((state: StoreType) => state.user);
   const totalCartPrice = useSelector(getTotalPrice);
   const cart = useSelector(getCart);
+  const dispatch = useAppDispatch();
 
   const nav = useNavigation();
 
+  if (!cart.length) return <EmptyCart />;
+
+  const isGeoLoading = geolocationStatus === 'loading';
+
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
   const totalPrice = totalCartPrice + priorityPrice;
-
-  if (!cart.length) return <EmptyCart />;
 
   const isSubmitting = nav.state === 'submitting';
 
@@ -56,16 +65,34 @@ function CreateOrder() {
           </div>
         </div>
 
-        <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center">
+        <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center relative">
           <label className="sm:basis-400">Address</label>
-          <div>
+          <div className="grow">
             <input
               type="text"
               name="address"
               required
               className="input w-full"
+              defaultValue={address}
+              disabled={isGeoLoading}
             />
+            {errorMessage.length > 0 && (
+              <p className="text-xs mt-2 text-red-700 bg-red-100 p-2 rounded-md">
+                {errorMessage}
+              </p>
+            )}
           </div>
+          {!position?.latitude && !position?.longitude && (
+            <span className="absolute right-[3px] z-10 top-[3px] md:right-[5px] md:top-[5px]">
+              <Button
+                type="small"
+                disabled={isGeoLoading}
+                click={() => dispatch(fetchAddress())}
+              >
+                Get Geolocation
+              </Button>
+            </span>
+          )}
         </div>
 
         <div className="mb-12 flex gap-5 items-center">
@@ -84,6 +111,15 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position?.latitude && position.longitude
+                ? `${position.latitude},${position.longitude}`
+                : ''
+            }
+          />
           <Button type="primary" disabled={isSubmitting}>
             {isSubmitting
               ? 'Receiving order...'
