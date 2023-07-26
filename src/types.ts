@@ -42,3 +42,7 @@ export type NewOrderType = {
 export type NewOrderErrors = {
   phone?: string;
 }
+
+export type UserState = {
+  userName: string;
+}
