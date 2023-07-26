@@ -29,11 +29,11 @@ function Order() {
 
         <div className="space-x-2">
           {priority && (
-            <span className="bg-red-500 rounder-full py-1 px-3 text-sm uppercase font-semibold text-red-50 tracking-wide">
+            <span className="bg-red-500 rounded-full py-1 px-3 text-sm uppercase font-semibold text-red-50 tracking-wide">
               Priority
             </span>
           )}
-          <span className="bg-green-500 rounder-full py-1 px-3 text-sm uppercase font-semibold text-green-50 tracking-wide">
+          <span className="bg-green-500 rounded-full py-1 px-3 text-sm uppercase font-semibold text-green-50 tracking-wide">
             {status} order
           </span>
         </div>
@@ -52,7 +52,7 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((cartItem) => (
-          <OrderItem key={`order_${id}`} item={cartItem} />
+          <OrderItem key={`order_${cartItem.pizzaId}_${cartItem.name}`} item={cartItem} />
         ))}
       </ul>
 

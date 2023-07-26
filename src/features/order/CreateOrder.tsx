@@ -4,42 +4,29 @@ import { NewOrderErrors, NewOrderType } from '../../types';
 import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
 import { useSelector } from 'react-redux';
-import { isValidPhone } from '../../utils/helpers';
+import { formatCurrency, isValidPhone } from '../../utils/helpers';
 import { getUserName } from '../user/userSlice';
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+import { clearCart, getCart, getTotalPrice } from '../cart/cartSlice';
+import EmptyCart from '../cart/EmptyCart';
+import store from '../../store';
+import { useState } from 'react';
 
 function CreateOrder() {
-  // const [withPriority, setWithPriority] = useState(false);
+  const [withPriority, setWithPriority] = useState(false);
   const formErrors = useActionData() as NewOrderErrors;
-  const userName  = useSelector(getUserName);
+
+  const userName = useSelector(getUserName);
+  const totalCartPrice = useSelector(getTotalPrice);
+  const cart = useSelector(getCart);
+
   const nav = useNavigation();
 
-  const isSubmitting = nav.state === 'submitting';
+  const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
+  const totalPrice = totalCartPrice + priorityPrice;
 
-  const cart = fakeCart;
+  if (!cart.length) return <EmptyCart />;
+
+  const isSubmitting = nav.state === 'submitting';
 
   return (
     <div>
@@ -86,8 +73,8 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority ? 'on' : 'off'}
+            onChange={(e) => setWithPriority(e.target.checked)}
             className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
           />
           <label className="font-medium" htmlFor="priority">
@@ -98,7 +85,9 @@ function CreateOrder() {
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <Button type="primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Receiving order...' : 'Order now'}
+            {isSubmitting
+              ? 'Receiving order...'
+              : `Order now (${formatCurrency(totalPrice)})`}
           </Button>
         </div>
       </Form>
@@ -125,5 +114,6 @@ export async function action({ request }: { request: Request }) {
   if (Object.keys(errors).length > 0) return errors;
 
   const newOrder = await createOrder(order);
+  store.dispatch(clearCart());
   return redirect(`${APP_ROUTS.ORDER}/${newOrder.id}`);
 }
