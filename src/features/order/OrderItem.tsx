@@ -3,13 +3,14 @@ import { formatCurrency } from '../../utils/helpers';
 
 type OrderItemProps = {
   item: OrderCart;
-  // isLoadingIngredients: boolean;
+  isLoadingIngredients: boolean;
+  ingredients: string[];
 };
 
 function OrderItem({
   item,
-/*   isLoadingIngredients,
-  ingredients, */
+  isLoadingIngredients,
+  ingredients,
 }: OrderItemProps) {
   const { quantity, name, totalPrice } = item;
 
@@ -21,6 +22,7 @@ function OrderItem({
         </p>
         <p className="font-bold">{formatCurrency(totalPrice)}</p>
       </div>
+      <p className="text-sm capitalize italic text-stone-500">{isLoadingIngredients ? 'Loading...' : ingredients.join(', ')}</p>
     </li>
   );
 }

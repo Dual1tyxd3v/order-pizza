@@ -1,15 +1,23 @@
-import { useLoaderData } from 'react-router-dom';
+import { useFetcher, useLoaderData } from 'react-router-dom';
 import {
   calcMinutesLeft,
   formatCurrency,
   formatDate,
 } from '../../utils/helpers';
 import { getOrder } from '../../services/apiRestaurant';
-import { OrderType } from '../../types';
+import { MenuType, OrderType } from '../../types';
 import OrderItem from './OrderItem';
+import { useEffect } from 'react';
+import { APP_ROUTS } from '../../const';
 
 function Order() {
   const order = useLoaderData() as OrderType;
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === 'idle') fetcher.load(APP_ROUTS.MENU);
+  }, [fetcher]);
+  const isLoadingIngredients = fetcher.state === 'loading';
 
   const {
     id,
@@ -52,7 +60,18 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((cartItem) => (
-          <OrderItem key={`order_${cartItem.pizzaId}_${cartItem.name}`} item={cartItem} />
+          <OrderItem
+            key={`order_${cartItem.pizzaId}_${cartItem.name}`}
+            item={cartItem}
+            isLoadingIngredients={isLoadingIngredients}
+            ingredients={
+              fetcher.data
+                ? ((fetcher.data as MenuType).find(
+                    (menuItem) => menuItem.id === cartItem.pizzaId,
+                  )?.ingredients as string[])
+                : []
+            }
+          />
         ))}
       </ul>
 
