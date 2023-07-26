@@ -6,10 +6,10 @@ import Order, { loader as orderLoader } from './features/order/Order';
 import CreateOrder, {
   action as newOrderAction,
 } from './features/order/CreateOrder';
+import { action as updateAction } from './features/order/UpdateOrder';
 import AppLayout from './UI/AppLayout';
 import NotFound from './UI/Error';
 import { APP_ROUTS } from './const';
-// import './App.css';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +28,7 @@ const router = createBrowserRouter([
         element: <Order />,
         errorElement: <NotFound />,
         loader: orderLoader,
+        action: updateAction,
       },
       {
         path: APP_ROUTS.NEW_ORDER,
@@ -36,8 +37,8 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <NotFound />
-      }
+        element: <NotFound />,
+      },
     ],
   },
 ]);
