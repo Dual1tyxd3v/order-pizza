@@ -46,3 +46,7 @@ export type NewOrderErrors = {
 export type UserState = {
   userName: string;
 }
+
+export type CartState = {
+  cart: OrderCart[];
+}

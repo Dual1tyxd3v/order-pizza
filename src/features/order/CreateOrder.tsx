@@ -5,12 +5,7 @@ import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
 import { StoreType } from '../../store';
 import { useSelector } from 'react-redux';
-
-// https://uibakery.io/regex-library/phone-number
-const isValidPhone = (str: string) =>
-  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str,
-  );
+import { isValidPhone } from '../../utils/helpers';
 
 const fakeCart = [
   {
