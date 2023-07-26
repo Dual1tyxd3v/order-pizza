@@ -3,9 +3,9 @@ import { createOrder } from '../../services/apiRestaurant';
 import { NewOrderErrors, NewOrderType } from '../../types';
 import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
-import { StoreType } from '../../store';
 import { useSelector } from 'react-redux';
 import { isValidPhone } from '../../utils/helpers';
+import { getUserName } from '../user/userSlice';
 
 const fakeCart = [
   {
@@ -34,7 +34,7 @@ const fakeCart = [
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const formErrors = useActionData() as NewOrderErrors;
-  const { userName } = useSelector((state: StoreType) => state.user);
+  const userName  = useSelector(getUserName);
   const nav = useNavigation();
 
   const isSubmitting = nav.state === 'submitting';

@@ -57,3 +57,5 @@ export const getTotalQuantity = (state: StoreType) =>
 
 export const getTotalPrice = (state: StoreType) =>
   state.cart.cart.reduce((sum, val) => sum + (val.totalPrice || 0), 0);
+
+export const getCart = (state: StoreType) => state.cart.cart;

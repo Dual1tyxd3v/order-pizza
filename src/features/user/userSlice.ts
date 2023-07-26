@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserState } from '../../types';
+import { StoreType } from '../../store';
 
 const initialState: UserState = {
   userName: '',
@@ -15,9 +16,11 @@ const userSlice = createSlice({
   },
 });
 
+export default userSlice.reducer;
+
 export const { updateName } = userSlice.actions;
 
-export default userSlice.reducer;
+export const getUserName = (state: StoreType) => state.user.userName;
 /* function getPosition() {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject);
