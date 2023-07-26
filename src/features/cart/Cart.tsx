@@ -2,16 +2,17 @@ import LinkButton from '../../UI/LinkButton';
 import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
 import CartItem from './CartItem';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { clearCart, getCart } from './cartSlice';
 import { getUserName } from '../user/userSlice';
 import { useCallback } from 'react';
 import EmptyCart from './EmptyCart';
+import { useAppDispatch } from '../../store';
 
 function Cart() {
   const userName = useSelector(getUserName);
   const cart = useSelector(getCart);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   
   const onClearHandle = useCallback(() => {

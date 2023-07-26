@@ -43,8 +43,17 @@ export type NewOrderErrors = {
   phone?: string;
 }
 
+export type Position = {
+  latitude: number;
+  longitude: number;
+}
+
 export type UserState = {
   userName: string;
+  status: 'loading' | 'idle' | 'error';
+  address: string;
+  position: Position | null;
+  errorMessage: string;
 }
 
 export type CartState = {

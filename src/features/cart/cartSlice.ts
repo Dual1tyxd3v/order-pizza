@@ -3,15 +3,7 @@ import { CartState } from '../../types';
 import { StoreType } from '../../store';
 
 const initialState: CartState = {
-  cart: [
-    /* {
-      pizzaId: 214124124,
-      name: 'qweqwe',
-      quantity: 4,
-      unitPrice: 13,
-      totalPrice: 52,
-    }, */
-  ],
+  cart: [],
 };
 
 const cartSlice = createSlice({
