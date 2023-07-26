@@ -1,21 +1,13 @@
-import { useDispatch } from 'react-redux';
-import Button from '../../UI/Button';
 import { OrderCart } from '../../types';
 import { formatCurrency } from '../../utils/helpers';
-import { useCallback } from 'react';
-import { deleteItem } from './cartSlice';
+import DeleteItem from './DeleteItem';
 
 type CartItemProps = {
   item: OrderCart;
 };
 
 function CartItem({ item }: CartItemProps) {
-  const dispatch = useDispatch();
   const { pizzaId, name, quantity, totalPrice } = item;
-
-  const onDeleteHandle = useCallback(() => {
-    dispatch(deleteItem(pizzaId));
-  }, [dispatch, pizzaId]);
 
   return (
     <li className="py-3 sm:flex sm:items-center sm:justify-between">
@@ -24,9 +16,7 @@ function CartItem({ item }: CartItemProps) {
       </p>
       <div className="flex justify-between items-center sm:gap-6">
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
-        <Button type="small" click={onDeleteHandle}>
-          Delete
-        </Button>
+        <DeleteItem id={pizzaId} />
       </div>
     </li>
   );
