@@ -3,6 +3,8 @@ import LinkButton from '../../UI/LinkButton';
 import { APP_ROUTS } from '../../const';
 import Button from '../../UI/Button';
 import CartItem from './CartItem';
+import { useSelector } from 'react-redux';
+import { StoreType } from '../../store';
 
 const fakeCart = [
   {
@@ -29,13 +31,14 @@ const fakeCart = [
 ];
 
 function Cart() {
+  const { userName } = useSelector((state: StoreType) => state.user);
   const cart = fakeCart;
 
   return (
     <div className="px-4 py-3">
       <LinkButton to={APP_ROUTS.MENU}>&larr; Back to menu</LinkButton>
 
-      <h2 className="mt-7 text-xl font-semibold">Your cart, %NAME%</h2>
+      <h2 className="mt-7 text-xl font-semibold">Your cart, {userName}</h2>
       <ul className="divide-y divide-stone-200 border-b mt-3">
         {cart.map((cartItem) => (
           <CartItem
